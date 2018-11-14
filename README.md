@@ -1,6 +1,6 @@
 # awesome-uploader-beta
 
- var uploader = new UploadFactory.init({
+ bash ''' var uploader = new UploadFactory.init({
 
             
             url : "{{Url('app/media/album/uploadphotos')}}",
@@ -109,4 +109,4 @@
     	  
 
 
-    });
+    });'''
