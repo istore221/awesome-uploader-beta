@@ -1,13 +1,84 @@
 package main
 
 import "fmt"
-import "runtime"
 
+
+type person struct{
+	fname string
+	lname string
+}
+
+type secretAgent struct{
+	person
+	licenseToKill bool
+}
+
+func (p person) speak(){
+	fmt.Println(p.fname,p.lname,"says good morning!")
+}
+
+
+func (p secretAgent) speak(){
+	fmt.Println(p.fname,p.lname,"says good morning in his own way!")
+}
+
+
+type human interface{
+	speak()
+}
 
 func main() {
 
 
+	 var v1 = "v1";
+	 var v2 = "v2"; // v1 is v2 
+
+	 var template_str string = `this is ` + v1 + ` how you set up `+ v2 +` an template string`
+	 fmt.Println(template_str)
+
+
+	// var p1 person = person{
+	// 		"kalana",
+	// 		"thejitha",
+	// }
+	//
+	// var sp1 secretAgent = secretAgent{
+	// 		person{
+	// 			"Gayathri",
+	// 			"Chamini",
+	// 		},
+	// 		true,
+	// }
+
+
+	// var p1 human = person{
+	// 		"kalana",
+	// 		"thejitha",
+	// }
+	//
+	// var sp1 human = secretAgent{
+	// 		person{
+	// 			"Gayathri",
+	// 			"Chamini",
+	// 		},
+	// 		true,
+	// }
+	//
+	//
+	//
+	// p1.speak()
+	// sp1.speak()
+	//
+	//
+	// var sp1o  = sp1.(secretAgent);
+	//
+	// fmt.Println(sp1o.fname)
+
+
 }
+
+
+
 
 
 
@@ -313,6 +384,14 @@ export PATH=$PATH:$GOROOT
 		fmt.Println(x_r); //[104 101 108 108 111 32 107]
 		fmt.Println(x_b); //[104 101 108 108 111 32 107]
 		fmt.Println(x_i); //[104 101 108 108 111 32 107]
+
+
+
+
+
+		var template_str string = `this is ` + v1 + ` how you set up `+ v2 +` an template string`
+ 	 fmt.Println(template_str)
+
 
 
 */
@@ -956,6 +1035,7 @@ fmt.Println(ans)
 	/*
 		mutext is a lock that application honors
 		typically we're using mutext to protect our data so that one async task can manupulate our data at a time
+		you can also use channels to implement the same thing without locks because channels behind use locks see example on channels topic
 
 		// if someoen locks the mutext other has to wait untill it unlocks
 		//in RWMutext if anyone is reading the data cant write has to wait until read unlocks. you can have many readers to the data but once writer want to write it has to wait untill all readers unlocks.once writer locks noboday can read or write other than the task which put the writer locks
@@ -1006,3 +1086,191 @@ fmt.Println(ans)
 // hints: if you're building a library avoid using go routings let the consumer use their own concureency on top of your ibrary
 
 
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+###channels
+
+When you have multiple goroutines which are executed concurrently, channels provide the easiest way to allow the goroutines to communicate with each other.
+One way for communication would be via a "shared" variable which is visible to both goroutines, but that would require proper locking / synchronized access.
+
+
+
+
+var wg = sync.WaitGroup{}
+
+func main() {
+
+	 ch := make(chan int) // channel to communicate the message which is an integer
+
+	wg.Add(2)
+
+	go func(){
+			i := <- ch // read from channel
+			fmt.Println(i)
+			wg.Done()
+	}()
+
+	go func(){
+
+			var x = 42
+			ch <- x // write to channel
+			wg.Done()
+	}()
+
+
+	wg.Wait();
+
+}
+
+
+
+
+### sendonly channels and recive only channel
+
+var wg = sync.WaitGroup{}
+
+func main() {
+
+	 ch := make(chan int) // channel to communicate the message which is an integer
+
+	wg.Add(2)
+
+	go func(ch <- chan int){ // you can only recive values from the channel
+			i := <- ch
+			fmt.Println(i)
+			wg.Done()
+	}(ch)
+
+	go func(ch chan<- int){ // you can only write to the channel from here
+			var x = 42
+			ch <- x
+			//fmt.Println(<- ch) // this will cause an error
+			wg.Done()
+	}(ch)
+
+
+	wg.Wait();
+
+
+
+
+
+### sayhello loop implmentation using channels without using lock  technique above
+
+var wg = sync.WaitGroup{}
+var helloCh = make(chan int)
+var doneCh = make(chan struct{})
+
+func main() {
+
+	var n int = 10;
+
+	wg.Add(1)
+	go sayHello()
+
+	for i:=0; i<n; i++{
+
+		helloCh <- i
+
+		if i==(n-1){
+			doneCh <- struct{}{}
+		}
+
+	}
+
+
+	wg.Wait();
+
+
+
+}
+
+
+func sayHello(){
+
+
+	for {
+	select {
+	case i := <- helloCh:
+		fmt.Println("Hello",i)
+	case <-doneCh:
+		wg.Done()
+		break
+	}
+}
+
+
+
+}
+
+
+
+
+
+
+### logger implementation with goroutins,WaitGroup,channels
+
+
+var wg = sync.WaitGroup{}
+var logCh = make(chan string)
+var doneCh = make(chan struct{}) // stcut with no field requre 0 memory allocation that why we use it to implement signal only channel you can use boolean if you want
+
+func main() {
+
+	wg.Add(1)
+
+	go logger()
+	defer func(){
+		fmt.Println("-----channel is closing-----")
+		close(logCh)
+	}()
+
+	logCh <- "App is starting"
+	logCh <- "App is terminating"
+	doneCh <- struct{}{}
+	wg.Wait()
+
+}
+
+
+func logger(){
+
+	// # if your not using doneCh method
+	// for entry := range logCh {
+	// 	fmt.Println(entry)
+	// 	if entry == "App is terminating"{
+	// 		wg.Done()
+	// 	}
+	// }
+
+	for {
+		select {
+		case entry := <- logCh:
+				fmt.Println(entry)
+		case <-doneCh:
+			wg.Done()
+			break
+		}
+	}
+
+
+
+}
+
+
+
+
+
+
+*/
