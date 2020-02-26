@@ -1149,3 +1149,71 @@ function format(data){
 console.log(JSON.stringify(format(data)))
 
 
+
+
+
+
+
+// parse the menu to html
+
+let menu = {
+
+    'home' : ['home1', 'home2', 'home3', {
+        'test': ['test1', 'test2']
+    }],
+    'configurations' : ['kafka', 'zookeeper', 'ambari', 'edge', {
+        'test': ['test1', 'test2', {
+            'test': ['test1', 'test2',{
+                'test': ['test1', 'test2']
+            }]
+        }]
+
+    }]
+
+}
+
+
+function menuParse(menu){
+
+  let str = "";
+
+
+      str += "<ol>";
+
+      Object.keys(menu).forEach((k)=>{
+
+        str += `<li>${k}</li>`;
+
+        str += "<li><ol>"
+
+        menu[k].forEach((v)=>{
+
+          if(typeof v !== "object"){
+             str += `<li>${v}</li>`;          
+          }else{
+
+            str += `<li>${menuParse(v)}</li>`
+          }
+        
+        })
+
+        str += "</ol></li>"
+
+        
+                                    
+      });
+
+      str += "</ol>";
+
+
+
+  
+
+
+  return str;  
+
+}
+
+console.log(menuParse(menu))
+
+
