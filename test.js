@@ -970,3 +970,182 @@ let malesUnder25 = vegzas.filter(p=>p.age < 25 && p.gender === 'm')
 let sumOfage = vegzas.map(p=>p.age).reduce((total, age) => total+age)
 //console.log(sumOfage)
 // Part 3 - Find the total age of everyone in texasss, newieyork and vegzas combined.
+
+
+
+
+
+
+
+
+
+
+
+// write a function to format this data
+/*
+[
+  {
+    "title": "Sirira ranatunga",
+    "children": [
+      {
+        "title": "Gayathri chamini",
+        "children": [
+          {
+            "title": "Kalana thejitha",
+            "children": [
+              
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Ananda Permasiri",
+    "children": [
+      {
+        "title": "Kalana thejitha",
+        "children": [
+          
+        ]
+      },
+      {
+        "title": "Nuwan Liyanage",
+        "children": [
+          {
+            "title": "Baby1",
+            "children": [
+              {
+                "title": "z",
+                "children": [
+                  
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Baby2",
+            "children": [
+              
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
+*/
+let data = [
+    { 
+        "title" : "Sirira ranatunga",
+        "children" : [
+            { 
+                "title" : "Gayathri chamini",
+                "children" : [
+
+                    {
+                      "title" : "Kalana thejitha",
+                      "children" : []
+                    }
+
+                ]
+            }
+        ]
+    },
+    { 
+        "title" : "Ananda Permasiri",
+        "children" : [
+            { 
+                "title" : "Kalana thejitha",
+                "children" : [
+
+                ]
+            },
+            { 
+                "title" : "Nuwan Liyanage",
+                "children" : [
+
+                    {
+                      "title" : "Baby1",
+                      "children" : [
+
+                         {
+                            "title" : "z",
+                            "children" : []
+                          }
+
+                      ]
+                    },
+                    {
+                      "title" : "Baby2",
+                      "children" : []
+                    }
+
+                ]
+            }
+        ]
+    }
+]
+
+function format(data){
+
+    let people = [];
+       
+    if(data.length === 0){
+        return []
+
+    }else{
+
+      for(let i=0;i<data.length;i++){
+
+          let title = data[i].title;
+          
+          let temp = {
+            title,
+            children: getChilds(data[i].children)
+          } 
+
+          people.push(temp)
+
+
+      }  
+
+      return people; 
+
+    
+      
+  }
+    
+  function getChilds(data){
+
+    let child = [];
+
+    if(data.length == 0){
+      return []
+    }else{
+
+       data.forEach(c=>{
+
+          let temp = {
+            title: c.title
+          }
+
+          child.push(temp)
+
+          let x = getChilds(c.children);
+
+          temp.children = x;
+          
+       })
+
+       return child
+    }
+ }
+
+  
+}
+
+
+console.log(JSON.stringify(format(data)))
+
+
