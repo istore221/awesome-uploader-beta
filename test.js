@@ -1217,3 +1217,90 @@ function menuParse(menu){
 console.log(menuParse(menu))
 
 
+
+
+
+
+
+/* Doubly linkedlist implementation */
+class Node{
+
+	constructor( data, next, prev){
+		this.data = data;
+		this.next = next;
+		this.prev = prev;
+	}
+}
+
+
+class DoublyLinkList{
+
+	constructor( ){
+		this.length = 0;
+	    this.head = null;
+	    this.tail = null;
+	}
+
+	append( data ){
+
+		if(this.head == null){
+
+			this.head = new Node( data, null, null)
+			this.tail = this.head;
+
+		}else{
+
+			let currentNode = this.head;
+
+			while(currentNode !== null){
+
+				if(currentNode.next == null ){
+					currentNode.next = new Node( data, null, currentNode )
+					break;
+				}else{
+					currentNode = currentNode.next;
+				}
+			}
+
+			this.tail = currentNode.next;
+
+
+		}
+
+		this.length++;		
+
+	}
+
+	print(){
+
+		let currentNode = this.head;
+
+		while(currentNode !== null){
+			console.log(currentNode.data);
+			currentNode = currentNode.next;
+		}
+	}
+
+	printReverse(){
+
+		let currentNode = this.tail;
+
+		while(currentNode !== null){
+			console.log(currentNode.data);
+			currentNode = currentNode.prev;
+		}
+	}
+
+
+}
+
+
+let list = new DoublyLinkList()
+list.append('A')
+list.append('B')
+list.append('C')
+list.append('D')
+list.append('E')
+
+list.print();
+list.printReverse();
