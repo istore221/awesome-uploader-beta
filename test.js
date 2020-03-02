@@ -1304,3 +1304,75 @@ list.append('E')
 
 list.print();
 list.printReverse();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function findMaxHourGlassValue(arr){
+
+
+let allHourGlasses = [];
+let hourglassLength = 3;
+
+for(let i=0;i<arr.length;i++){
+
+	let sliceIndex = hourglassLength;
+	
+	for(let j=0;j<arr.length;j++){
+
+		let row1 = arr[i] ?  arr[i].slice(j,sliceIndex) : null;
+		let row2 = arr[i+1] ?  [arr[i+1].slice(j,sliceIndex)[0 + ((arr[i+1].slice(j,sliceIndex).length-1)-0)/2]] : null; 		
+		let row3 = arr[i+2] ?  arr[i+2].slice(j,sliceIndex) : null;
+
+		
+		if( (row1 === null || row1.length < hourglassLength) ||  (row2 === null || row2.length < 0 || row2[0] === undefined) ||  (row3 === null || row3.length < hourglassLength)){
+			break;
+		}else{
+
+		allHourGlasses.push({
+			row1,
+			row2,
+			row3,
+			sum: [...row1,...row2,...row3].reduce((a, b) => parseInt(a)+parseInt(b), 0)
+		})
+		sliceIndex++;
+
+
+		}
+						
+	}
+
+	if(arr[i+2] === undefined){
+		return Math.max(...allHourGlasses.map(e=>e.sum))
+	}
+
+}
+
+
+}
+
+
+console.log(findMaxHourGlassValue(
+	[
+	  [ 1, 1, 1, 0, 0, 0 ],
+	  [ 0, 1, 0, 0, 0, 0 ],
+	  [ 1, 1, 1, 0, 0, 0 ],
+	  [ 0, 0, 2, 4, 4, 0 ],
+	  [ 0, 0, 0, 2, 0, 0 ],
+	  [ 0, 0, 1, 2, 4, 0 ]
+	]
+
+
+	))
+
