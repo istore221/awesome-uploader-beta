@@ -1376,3 +1376,62 @@ console.log(findMaxHourGlassValue(
 
 	))
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// find minimum swipes to sort the array
+function minSwipes(arr){
+
+	arr = arr.map(e=>{return {v:e,visited:false}})
+
+	let swap = 0;
+
+	for(let i=0;i<arr.length;i++){
+
+		let currentNode = arr[i]
+		let currentPos = i;
+
+		while(!currentNode.visited){
+			
+			currentNode.visited = true;
+
+			if(currentPos != currentNode.v){
+
+				currentNode = arr[currentNode.v-1]
+				currentPos = currentNode.v-1;
+				if(!currentNode.visited){
+					swap+=1
+				}else{
+					break;
+				}
+			}else{
+
+				break;
+			}
+
+		}	
+
+	}
+
+	
+	return swap;
+
+}
+
+
+console.log(minSwipes([1, 3, 5, 2, 4, 6, 7]))
+
