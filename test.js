@@ -1435,3 +1435,55 @@ function minSwipes(arr){
 
 console.log(minSwipes([1, 3, 5, 2, 4, 6, 7]))
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function minimumBribes2(q) {
+
+	let bribesCount = 0;
+	
+	let oq = Array
+        .apply(null, Array((Math.max(...q) - 1) + 1))
+        .map(function(_, n){ return n + 1; }); 
+	
+	let chaotic = false;
+
+	for(let i=0;i<q.length;i++){
+
+		let cv = q[i];
+		
+		let sqi = oq.indexOf(cv);
+		let bqi = q.indexOf(cv);
+		let noOfMoves = sqi - bqi;
+
+		if(noOfMoves > 2){
+			chaotic = true;
+		}
+
+		if(noOfMoves > 0){
+			oq.splice(sqi,1)
+			oq.splice(bqi,0,cv)
+			bribesCount+=noOfMoves;						
+		}//				 
+	}
+
+	console.log(bribesCount)
+	    
+
+}
+
+
+minimumBribes2([1, 2, 5, 3, 7, 8, 6, 4]) //7
+
+
