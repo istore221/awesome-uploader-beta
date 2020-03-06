@@ -1487,3 +1487,43 @@ function minimumBribes2(q) {
 minimumBribes2([1, 2, 5, 3, 7, 8, 6, 4]) //7
 
 
+
+
+
+
+
+
+// Complete the arrayManipulation function below.
+function arrayManipulation(n, queries) {
+
+	let array = new Array(n).fill(0);
+
+	
+
+	for(let i=0;i<queries.length;i++){
+		let a = queries[i][0]; //1
+		let b = queries[i][1]; //5
+		let k = queries[i][2];
+		
+		for(let j=0;j<array.length;j++){
+
+			if(j+1 >= a && j+1 <= b){
+				array[j]+=k;
+			}
+						
+		}
+
+
+		
+	}
+
+
+	return Math.max(...array);
+}
+
+console.log(
+arrayManipulation(10,[[1,5,3],
+					  [4,8,7],
+					  [6,9,1]]))
+
+
