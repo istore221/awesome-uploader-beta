@@ -1558,3 +1558,42 @@ console.log(minimumAbsoluteDifference([3, -7, 0]))
 
 
 
+
+
+
+
+
+function countingValleys(n, s) {
+
+	let sealevelVal = 0;
+	let prevStepVal = 0;
+	let vallys = 0;
+
+	for(let i=0;i<s.length;i++){
+		
+		let cstep = s[i];
+
+		if(cstep == "U"){
+
+			sealevelVal+=1;
+		}
+
+		if(cstep == "D"){
+			sealevelVal-=1;
+		}
+
+		if(prevStepVal == -1 && sealevelVal == 0){
+			vallys++;
+		}
+
+		prevStepVal = sealevelVal;
+	}
+
+	return vallys;
+
+	
+}
+
+
+console.log(countingValleys(8,['U', 'D', 'D', 'D', 'U', 'D', 'U', 'U']))
+
