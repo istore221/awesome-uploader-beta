@@ -1527,3 +1527,34 @@ arrayManipulation(10,[[1,5,3],
 					  [6,9,1]]))
 
 
+
+
+
+
+
+
+function minimumAbsoluteDifference(arr) {
+
+	arr.sort((a, b)=>a-b);
+	console.log(arr)
+	let min = Infinity;
+
+	for(let i=0;i<arr.length;i++){
+
+		let dif = Math.abs(arr[i] - arr[i+1]);
+
+		if(dif < min){
+			min = dif
+		}
+	
+	}
+
+	return min;
+}
+
+
+console.log(minimumAbsoluteDifference([3, -7, 0]))
+
+
+
+
