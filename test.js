@@ -1597,3 +1597,42 @@ function countingValleys(n, s) {
 
 console.log(countingValleys(8,['U', 'D', 'D', 'D', 'U', 'D', 'U', 'U']))
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+function timeConversion(s) {
+    
+    let [hour,minutes,secondsstr] = s.split(":");
+    seconds = secondsstr.slice('').slice(0,secondsstr.indexOf('M')-1);
+    i = secondsstr.split('').slice(-2).join('');
+ 	
+ 	if(hour === "12"){
+
+ 		hour = "00"
+ 	}
+
+ 	if(i === "PM"){
+
+ 		hour = parseInt(hour) + 12
+
+ 	}
+
+ 	return `${hour}:${minutes}:${seconds}`  
+ 
+ }
+
+
+
+console.log(timeConversion("07:05:45PM"))
+
+
