@@ -103,10 +103,14 @@ export PATH=$PATH:$GOROOT
 	three ways to run the code
 
 	1. quick run => go run src/github.com/istore221/firstapp/Main.go
+	
 	2. build code =>   cd ~/Desktop/golang-quickstart/ && go build github.com/istore221/firstapp && ./firstapp
+	
 	3. install code => cd ~/Desktop/golang-quickstart/ && go install github.com/istore221/firstapp && ./bin/firstapp
 
-
+	
+	go build creates an executable where you run the go build command from
+	go install create an executable in the relevenet gopath directory 
 */
 
 
