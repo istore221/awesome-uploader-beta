@@ -114,6 +114,27 @@ export PATH=$PATH:$GOROOT
 */
 
 
+/*
+
+string manupalation output:
+name is John salary is 1000
+**** value "name is John salary is 1000" is a string ****
+name is Sam salary is 2000
+**** value "name is Sam salary is 2000" is a string ****
+
+employeeSalary := map[string]int{
+		"John": 1000,
+		"Sam":  2000,
+	}
+
+	for k, v := range employeeSalary {
+		s := fmt.Sprintf("name is %s salary is %d", k, v)
+		fmt.Println(s)
+		fmt.Printf("**** value \"%s\" is a %T ****\n", s, s)
+	}
+
+*/
+
 
 /*
 
